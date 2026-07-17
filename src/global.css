@@ -1,0 +1,18 @@
+:root {
+    --color-primary: #85aa9f;
+    --color-text: #121417;
+    --color-white: #fcfcfc;
+    --color-bg: #f8f8f8;
+    --color-error: #d80027;
+    --color-success: #3cbf61;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.5;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}

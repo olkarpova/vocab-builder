@@ -1,4 +1,4 @@
-import { logOut, setCredentials } from "../redux/auth/authSlice";
+import { logOut } from "../redux/auth/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../redux/store";
 

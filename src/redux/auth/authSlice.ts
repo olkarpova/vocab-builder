@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import { register } from './authOperations';
 
 interface User {
   name: string;
@@ -9,30 +10,50 @@ interface AuthState {
   user: User | null;
   token: string | null;
   isLoggedIn: boolean;
+  isLoading: boolean;
+  error: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
   token: null,
   isLoggedIn: false,
+  isLoading: false,
+  error: null,
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isLoggedIn = true;
-    },
-    logOut: (state) => {
+    logOut: state => {
       state.user = null;
       state.token = null;
       state.isLoggedIn = false;
     },
   },
+  extraReducers: builder => {
+    builder
+      .addCase(register.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.user = { name: action.payload.name, email: action.payload.email };
+        state.token = action.payload.token;
+        state.isLoggedIn = true;
+        state.isLoading = false;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+  },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { logOut } = authSlice.actions;
 export default authSlice.reducer;
+// сила async thunk: одна дія register, а slice сам реагує
+// на всі три стадії — початок, успіх, помилку.
+// Лоадер і помилки керуються автоматично
+// authSlice.ts - зберігає результат у store + керує loading/error

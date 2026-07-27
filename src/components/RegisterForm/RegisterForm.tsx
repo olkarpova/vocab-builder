@@ -8,6 +8,7 @@ import { register } from '../../redux/auth/authOperations';
 import { Link } from 'react-router-dom';
 import errorIcon from '../../assets/icons/error.svg';
 import successIcon from '../../assets/icons/success.svg';
+import FormField from '../FormField/FormField';
 
 interface RegisterFormValues {
   name: string;
@@ -64,51 +65,9 @@ export default function RegisterForm() {
             below. All fields are mandatory:
           </p>
 
-          <Field
-            className={css.field}
-            type="text"
-            name="name"
-            placeholder="Name"
-          />
-          <ErrorMessage name="name">
-            {msg => (
-              <span className={css.error}>
-                <img src={errorIcon} alt="" className={css.messageIcon} />
-                {msg}
-              </span>
-            )}
-          </ErrorMessage>
-
-          <Field
-            className={css.field}
-            type="email"
-            name="email"
-            placeholder="Email"
-          />
-          <ErrorMessage name="email">
-            {msg => (
-              <span className={css.error}>
-                <img src={errorIcon} alt="" className={css.messageIcon} />
-                {msg}
-              </span>
-            )}
-          </ErrorMessage>
-
-          <Field
-            className={css.field}
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-          <ErrorMessage name="password">
-            {msg => (
-              <span className={css.error}>
-                <img src={errorIcon} alt="" className={css.messageIcon} />
-                {msg}
-              </span>
-            )}
-          </ErrorMessage>
-          
+          <FormField name="name" type="text" placeholder="Name" />
+          <FormField name="email" type="email" placeholder="Email" />
+          <FormField name="password" type="password" placeholder="Password" />
         </fieldset>
 
         <button className={css.btn} type="submit">
@@ -122,3 +81,8 @@ export default function RegisterForm() {
     </Formik>
   );
 }
+// validationSchema  →  задає правила («email має бути валідним»)
+//       ↓
+// Formik            →  перевіряє поле, генерує помилку, кладе в стан
+//       ↓
+// <ErrorMessage>    →  читає стан, показує помилку на екрані

@@ -6,8 +6,6 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../../redux/store';
 import { register } from '../../redux/auth/authOperations';
 import { Link } from 'react-router-dom';
-import errorIcon from '../../assets/icons/error.svg';
-import successIcon from '../../assets/icons/success.svg';
 
 interface RegisterFormValues {
   name: string;
@@ -35,20 +33,20 @@ const RegisterFormSchema = Yup.object().shape({
 });
 
 export default function RegisterForm() {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
 
   const handleSubmit = async (
     values: RegisterFormValues,
     actions: FormikHelpers<RegisterFormValues>
   ) => {
-    try {
-      await dispatch(register(values)).unwrap();
-      actions.resetForm();
-      navigate('/dictionary');
-    } catch {
-      // помилку покажемо через toast
-    }
+      try {
+          await dispatch(register(values)).unwrap();
+          actions.resetForm();
+          navigate("/dictionary");
+      } catch {
+          // помилку покажемо через toast
+      }
   };
   return (
     <Formik
@@ -59,25 +57,18 @@ export default function RegisterForm() {
       <Form className={css.form}>
         <fieldset className={css.fieldset}>
           <legend className={css.legend}>Register</legend>
-          <p className={css.info}>
-            To start using our services, please fill out the registration form
-            below. All fields are mandatory:
-          </p>
-
+        <p>Please enter your login details to continue using our service:</p>
           <Field
             className={css.field}
             type="text"
             name="name"
             placeholder="Name"
           />
-          <ErrorMessage name="name">
-            {msg => (
-              <span className={css.error}>
-                <img src={errorIcon} alt="" className={css.messageIcon} />
-                {msg}
-              </span>
-            )}
-          </ErrorMessage>
+          <ErrorMessage
+            name="name"
+            component="span"
+            className={css.error}
+          />
 
           <Field
             className={css.field}
@@ -85,14 +76,7 @@ export default function RegisterForm() {
             name="email"
             placeholder="Email"
           />
-          <ErrorMessage name="email">
-            {msg => (
-              <span className={css.error}>
-                <img src={errorIcon} alt="" className={css.messageIcon} />
-                {msg}
-              </span>
-            )}
-          </ErrorMessage>
+          <ErrorMessage name="email" component="span" className={css.error} />
 
           <Field
             className={css.field}
@@ -100,24 +84,19 @@ export default function RegisterForm() {
             name="password"
             placeholder="Password"
           />
-          <ErrorMessage name="password">
-            {msg => (
-              <span className={css.error}>
-                <img src={errorIcon} alt="" className={css.messageIcon} />
-                {msg}
-              </span>
-            )}
-          </ErrorMessage>
-          
+          <ErrorMessage
+            name="password"
+            component="span"
+            className={css.error}
+          />
         </fieldset>
 
         <button className={css.btn} type="submit">
           Register
         </button>
-
-        <Link to="/login" className={css.link}>
-          Login
-        </Link>
+        
+          <Link to="/login" className={css.link}>Login</Link>
+      
       </Form>
     </Formik>
   );

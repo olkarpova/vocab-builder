@@ -40,7 +40,8 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    display: flex;
+    padding: 0;
 }
 
 .error,
@@ -64,4 +65,9 @@
 .messageIcon {
     width: 16px;
     height: 16px;
+}
+
+.eyeIcon {
+    width: 20px;
+    height: 20px;
 }

@@ -3,6 +3,8 @@ import { useField } from 'formik';
 import css from './FormField.module.css';
 import errorIcon from '../../assets/icons/error.svg';
 import successIcon from '../../assets/icons/success.svg';
+import eyeIcon from '../../assets/icons/eye.svg';
+import eyeOffIcon from '../../assets/icons/eye-off.svg';
 
 interface FormFieldProps {
   name: string;
@@ -44,7 +46,11 @@ export default function FormField({
             onClick={() => setShowPassword(prev => !prev)}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ? '🙈' : '👁'}
+            <img
+              src={showPassword ? eyeOffIcon : eyeIcon}
+              alt=""
+              className={css.eyeIcon}
+            />
           </button>
         )}
       </div>

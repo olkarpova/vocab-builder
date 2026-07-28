@@ -1,4 +1,4 @@
-import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from 'formik';
+import { Formik, Form, type FormikHelpers } from 'formik';
 import css from './RegisterForm.module.css';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -6,9 +6,8 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../../redux/store';
 import { register } from '../../redux/auth/authOperations';
 import { Link } from 'react-router-dom';
-import errorIcon from '../../assets/icons/error.svg';
-import successIcon from '../../assets/icons/success.svg';
 import FormField from '../FormField/FormField';
+import toast from 'react-hot-toast';
 
 interface RegisterFormValues {
   name: string;
@@ -46,9 +45,10 @@ export default function RegisterForm() {
     try {
       await dispatch(register(values)).unwrap();
       actions.resetForm();
+      toast.success("Registration successful!");
       navigate('/dictionary');
-    } catch {
-      // помилку покажемо через toast
+    } catch(error) {
+      toast.error(error as string);
     }
   };
   return (

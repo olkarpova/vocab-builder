@@ -6,6 +6,11 @@ export interface SignUpData {
     password: string;
 }
 
+export interface LogInData {
+    email: string;
+    password: string;
+}
+
 export interface AuthResponse {
     email: string;
     name: string;
@@ -16,9 +21,15 @@ export const signUp = async (data: SignUpData): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>("/users/signup", data);
     return response.data;
 };
-// authService.ts — це функції запитів до бекенду.
-// signUp просто відправляє дані й повертає відповідь. 
+
+export const logIn = async (data: LogInData): Promise<AuthResponse> => {
+    const response = await api.post<AuthResponse>("/users/signin", data);
+    return response.data;
+};
+ // authService.ts — це функції запитів до бекенду.
+// signUp просто відправляє дані й повертає відповідь. створити нового користувача
 // Нічого не зберігає.
 // Зберігання — це робота Redux (authSlice)
 // authService.ts — «поговорити з бекендом» (відправити/отримати);
 // authSlice.ts — «зберегти результат» (у store).
+//LogIn - відправляє дані й повертає відповідь. впустити існуючого

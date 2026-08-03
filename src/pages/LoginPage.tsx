@@ -1,9 +1,33 @@
-import { logOut } from "../redux/auth/authSlice";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../redux/store";
+import LoginForm from "../components/LoginForm/LoginForm";
+import illustration from '../assets/illustration.png';
+import css from "./LoginPage.module.css"
+// import { logOut } from "../redux/auth/authSlice";
+// import { useSelector, useDispatch } from "react-redux";
+// import type { RootState } from "../redux/store";
 
 export default function LoginPage() {
-  return <h1>Login</h1>;
+    return (
+      <section className={css.wrapper}>
+      <LoginForm />
+
+      <div className={css.illustration}>
+        <img
+          className={css.image}
+          src={illustration}
+          srcSet={`${illustration} 2x`}
+          alt="Two people reading books"
+          width={534}
+          height={532}
+        />
+        <ul className={css.captions}>
+          <li>Word</li>
+          <li>Translation</li>
+          <li>Grammar</li>
+          <li>Progress</li>
+        </ul>
+      </div>
+    </section>
+  );
 }
 
 // export default function LoginPage() {

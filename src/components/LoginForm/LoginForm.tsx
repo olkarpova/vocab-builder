@@ -1,26 +1,24 @@
-import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from 'formik';
-import css from './RegisterForm.module.css';
+import { Formik, Form, type FormikHelpers } from 'formik';
+import css from './LoginForm.module.css';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../../redux/store';
-import { register } from '../../redux/auth/authOperations';
-import { Link } from 'react-router-dom';
+import { logIn } from '../../redux/auth/authOperations';
+import toast from 'react-hot-toast';
+import FormField from '../FormField/FormField';
 
-interface RegisterFormValues {
-  name: string;
+interface LoginFormValues {
   email: string;
   password: string;
 }
 
-const initialValues: RegisterFormValues = {
-  name: '',
+const initialValues: LoginFormValues = {
   email: '',
   password: '',
 };
 
-const RegisterFormSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
+const LoginFormSchema = Yup.object().shape({
   email: Yup.string()
     .matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, 'Invalid email address')
     .required('Email is required'),
@@ -32,71 +30,45 @@ const RegisterFormSchema = Yup.object().shape({
     .required('Password is required'),
 });
 
-export default function RegisterForm() {
-    const dispatch = useDispatch<AppDispatch>();
-    const navigate = useNavigate();
+export default function LoginForm() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleSubmit = async (
-    values: RegisterFormValues,
-    actions: FormikHelpers<RegisterFormValues>
+    values: LoginFormValues,
+    actions: FormikHelpers<LoginFormValues>
   ) => {
-      try {
-          await dispatch(register(values)).unwrap();
-          actions.resetForm();
-          navigate("/dictionary");
-      } catch {
-          // помилку покажемо через toast
-      }
+    try {
+      await dispatch(logIn(values)).unwrap();
+      actions.resetForm();
+      toast.success('Welcome back!');
+      navigate('/dictionary');
+    } catch (error) {
+      toast.error(error as string);
+    }
   };
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={RegisterFormSchema}
+      validationSchema={LoginFormSchema}
       onSubmit={handleSubmit}
     >
       <Form className={css.form}>
         <fieldset className={css.fieldset}>
-          <legend className={css.legend}>Register</legend>
-        <p>Please enter your login details to continue using our service:</p>
-          <Field
-            className={css.field}
-            type="text"
-            name="name"
-            placeholder="Name"
-          />
-          <ErrorMessage
-            name="name"
-            component="span"
-            className={css.error}
-          />
+          <legend className={css.legend}>Login</legend>
+          <p className={css.info}>Please enter your login details to continue using our service:</p>
 
-          <Field
-            className={css.field}
-            type="email"
-            name="email"
-            placeholder="Email"
-          />
-          <ErrorMessage name="email" component="span" className={css.error} />
-
-          <Field
-            className={css.field}
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-          <ErrorMessage
-            name="password"
-            component="span"
-            className={css.error}
-          />
+          <FormField name="email" type="email" placeholder="Email" />
+          <FormField name="password" type="password" placeholder="Password" />
         </fieldset>
 
         <button className={css.btn} type="submit">
-          Register
+          Login
         </button>
-        
-          <Link to="/login" className={css.link}>Login</Link>
-      
+
+        <Link to="/register" className={css.link}>
+          Register
+        </Link>
       </Form>
     </Formik>
   );

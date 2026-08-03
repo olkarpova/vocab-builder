@@ -1,0 +1,91 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 628px;
+    max-width: 100%;
+    min-height: 518px;
+    padding: 48px 64px;
+    border-radius: 30px;
+    background: rgba(133, 170, 159, 0.1);
+    flex-shrink: 0;
+}
+
+.fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    min-inline-size: auto;
+}
+
+.legend {
+    padding: 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+}
+
+.info {
+    margin: 0 0 32px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: rgba(18, 20, 23, 0.8);
+}
+
+.messageIcon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.btn {
+    width: 100%;
+    height: 60px;
+    margin-top: 14px;
+    border: none;
+    border-radius: 30px;
+    background-color: var(--color-primary);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.56;
+    color: var(--color-white);
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+
+.btn:hover,
+.btn:focus {
+    background-color: var(--color-primary-hover);
+}
+
+.link {
+    align-self: center;
+    margin-top: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(18, 20, 23, 0.5);
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+}
+
+@media screen and (max-width: 767px) {
+    .form {
+        width: 100%;
+        min-height: 549px;
+        flex-grow: 1;
+        padding: 32px 16px;
+        border-radius: 25px 25px 0 0;
+    }
+
+    .legend {
+        font-size: 30px;
+    }
+
+    .info {
+        font-size: 16px;
+    }
+}

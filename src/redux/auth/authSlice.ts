@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register } from './authOperations';
+import { register, logIn } from './authOperations';
 
 interface User {
   name: string;
@@ -47,6 +47,21 @@ const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
+      })
+
+      .addCase(logIn.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(logIn.fulfilled, (state, action) => {
+        state.user = { name: action.payload.name, email: action.payload.email };
+        state.token = action.payload.token;
+        state.isLoggedIn = true;
+        state.isLoading = false;
+      })
+      .addCase(logIn.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });
@@ -57,3 +72,4 @@ export default authSlice.reducer;
 // на всі три стадії — початок, успіх, помилку.
 // Лоадер і помилки керуються автоматично
 // authSlice.ts - зберігає результат у store + керує loading/error
+// реакція на register i logIn, logOut

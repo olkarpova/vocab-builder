@@ -1,6 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { signUp, type SignUpData } from "../../services/authService";
+import {
+    signUp,
+    logIn as logInRequest, //logIn as logInRequest — конфлікт імен;
+    type LogInData,
+    type SignUpData,
+} from "../../services/authService";
 import { setAuthHeader } from "../../services/api";
 
 export const register = createAsyncThunk(
@@ -21,6 +26,24 @@ export const register = createAsyncThunk(
     }
 );
 
+export const logIn = createAsyncThunk(
+    "auth/logIn", 
+    async (credentials: LogInData, thunkAPI) => {
+        try {
+            const data = await logInRequest(credentials);
+            setAuthHeader(data.token);
+            return data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return thunkAPI.rejectWithValue(
+            error.response?.data?.message || "Login failed"
+            );
+            }
+            return thunkAPI.rejectWithValue("Login failed");
+        }
+    }
+)
+
 //authOperations.ts - thunk register — з'єднує запит + Redux
 // thunk автоматично створює три дії:
 
@@ -30,3 +53,9 @@ export const register = createAsyncThunk(
 
 // register і є thunk. «thunk» — це просто назва такого типу функції 
 // в Redux (асинхронна дія, створена через createAsyncThunk)
+// createAsyncThunk — створює async-дію (бо reducers синхронні, а тут запит);
+//"auth/logIn" — назва дії. З неї Redux генерує три: 
+// - auth/logIn/pending, /fulfilled, /rejected (їх ловить slice);
+
+//credentials — те, що передаси при dispatch(logIn({...})). Тип LogInData = { email, password };
+// thunkAPI — набір інструментів Redux (нам потрібен rejectWithValue)

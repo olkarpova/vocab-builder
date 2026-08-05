@@ -26,6 +26,11 @@ export const logIn = async (data: LogInData): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>("/users/signin", data);
     return response.data;
 };
+
+export const getCurrentUser = async (): Promise<AuthResponse> => {
+    const response = await api.get<AuthResponse>("/users/current");
+    return response.data;
+};
  // authService.ts — це функції запитів до бекенду.
 // signUp просто відправляє дані й повертає відповідь. створити нового користувача
 // Нічого не зберігає.
@@ -33,3 +38,5 @@ export const logIn = async (data: LogInData): Promise<AuthResponse> => {
 // authService.ts — «поговорити з бекендом» (відправити/отримати);
 // authSlice.ts — «зберегти результат» (у store).
 //LogIn - відправляє дані й повертає відповідь. впустити існуючого
+
+// В getCurrentUser api.get - GET. Параметрів немає — токен уже в заголовку

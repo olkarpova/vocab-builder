@@ -6,8 +6,17 @@ import RecommendPage from "./pages/RecommendPage";
 import TrainingPage from "./pages/TrainingPage";
 import AuthLayout from "./components/AuthLayout/AuthLayout";
 import { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "./redux/store";
+import { useEffect } from "react";
+import { refreshUser } from "./redux/auth/authOperations";
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
   return (
     <>
       <Routes>

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, logIn } from './authOperations';
+import { register, logIn, refreshUser } from './authOperations';
 
 interface User {
   name: string;
@@ -11,6 +11,7 @@ interface AuthState {
   token: string | null;
   isLoggedIn: boolean;
   isLoading: boolean;
+  isRefreshing: boolean;
   error: string | null;
 }
 
@@ -19,6 +20,7 @@ const initialState: AuthState = {
   token: null,
   isLoggedIn: false,
   isLoading: false,
+  isRefreshing: false,
   error: null,
 };
 
@@ -62,6 +64,17 @@ const authSlice = createSlice({
       .addCase(logIn.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
+      })
+      .addCase(refreshUser.pending, state => {
+        state.isRefreshing = true;
+      })
+      .addCase(refreshUser.fulfilled, (state, action) => {
+        state.user = { name: action.payload.name, email: action.payload.email };
+        state.isLoggedIn = true;
+        state.isRefreshing = false;
+      })
+      .addCase(refreshUser.rejected, state => {
+        state.isRefreshing = false;
       });
   },
 });
@@ -73,3 +86,8 @@ export default authSlice.reducer;
 // Лоадер і помилки керуються автоматично
 // authSlice.ts - зберігає результат у store + керує loading/error
 // реакція на register i logIn, logOut
+
+// isRefreshing — прапорець «зараз відновлюємо сесію». 
+// Потрібен, щоб не показувати сторінки, 
+// поки не з'ясуємо, залогінений юзер чи ні 
+// (інакше блимне login перед dictionary).

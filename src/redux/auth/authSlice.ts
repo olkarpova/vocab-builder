@@ -80,7 +80,8 @@ const authSlice = createSlice({
 });
 
 export const { logOut } = authSlice.actions;
-export default authSlice.reducer;
+export default authSlice.reducer; // authReducer у slice
+
 // сила async thunk: одна дія register, а slice сам реагує
 // на всі три стадії — початок, успіх, помилку.
 // Лоадер і помилки керуються автоматично

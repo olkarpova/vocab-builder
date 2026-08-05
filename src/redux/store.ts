@@ -36,3 +36,5 @@ export const persistor = persistStore(store); // створює «persistor», �
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+// reducer: { auth: persistedAuthReducer} - reducer'и, які станом керують

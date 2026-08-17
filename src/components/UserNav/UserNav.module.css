@@ -1,0 +1,29 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 28px;
+}
+
+.navLink {
+  padding: 12px 20px;
+  border-radius: 15px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+}
+
+.active,
+.active:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}

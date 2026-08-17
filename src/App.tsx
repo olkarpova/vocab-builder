@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { refreshUser } from './redux/auth/authOperations';
 import PrivateRoute from './routes/PrivateRoute';
 import RestrictedRoute from './routes/RestrictedRoute';
+import MainLayout from './components/MainLayout/MainLayout';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,9 +43,33 @@ function App() {
           />
         </Route>
 
-        <Route path="/dictionary" element={<PrivateRoute><DictionaryPage /></PrivateRoute>} />
-        <Route path="/recommend" element={<PrivateRoute><RecommendPage /></PrivateRoute>} />
-        <Route path="/training" element={<PrivateRoute><TrainingPage /></PrivateRoute>} />
+        <Route element={<MainLayout />}>
+          <Route
+            path="/dictionary"
+            element={
+              <PrivateRoute>
+                <DictionaryPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/recommend"
+            element={
+              <PrivateRoute>
+                <RecommendPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/training"
+            element={
+              <PrivateRoute>
+                <TrainingPage />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
 

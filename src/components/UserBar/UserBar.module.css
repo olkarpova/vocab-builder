@@ -1,0 +1,20 @@
+.userBar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.userName {
+    font-weight: 500;
+    font-size: 20px;
+    color: #121417;
+}
+
+.logoutBtn {
+    padding: 8px 16px;
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+}

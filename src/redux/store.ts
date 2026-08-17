@@ -34,7 +34,8 @@ export const store = configureStore({
 
 export const persistor = persistStore(store); // створює «persistor», який керує збереженням/відновленням
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-
+export type RootState = ReturnType<typeof store.getState>; // тип усього стану застосунку
+export type AppDispatch = typeof store.dispatch; //тип функції dispatch мого store
+// Це типи для TypeScript, які роблять роботу з Redux безпечною й зручною.
 // reducer: { auth: persistedAuthReducer} - reducer'и, які станом керують
+// store.getState() — функція Redux, що повертає весь поточний стан

@@ -31,6 +31,10 @@ export const getCurrentUser = async (): Promise<AuthResponse> => {
     const response = await api.get<AuthResponse>("/users/current");
     return response.data;
 };
+
+export const logOut = async (): Promise<void> => {
+    await api.post("/users/signout")
+};
  // authService.ts — це функції запитів до бекенду.
 // signUp просто відправляє дані й повертає відповідь. створити нового користувача
 // Нічого не зберігає.

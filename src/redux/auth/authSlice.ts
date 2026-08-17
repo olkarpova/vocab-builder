@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, logIn, refreshUser } from './authOperations';
+import { register, logIn, refreshUser, logOut } from './authOperations';
 
 interface User {
   name: string;
@@ -28,11 +28,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logOut: state => {
-      state.user = null;
-      state.token = null;
-      state.isLoggedIn = false;
-    },
+    // logOut: state => {
+    //   state.user = null;
+    //   state.token = null;
+    //   state.isLoggedIn = false;
+    // }, // - це був синхронний logOut
   },
   extraReducers: builder => {
     builder
@@ -75,11 +75,16 @@ const authSlice = createSlice({
       })
       .addCase(refreshUser.rejected, state => {
         state.isRefreshing = false;
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.user = null;
+        state.token = null;
+        state.isLoggedIn = false;
       });
   },
 });
 
-export const { logOut } = authSlice.actions;
+// export const { logOut } = authSlice.actions;
 export default authSlice.reducer; // authReducer у slice
 
 // сила async thunk: одна дія register, а slice сам реагує

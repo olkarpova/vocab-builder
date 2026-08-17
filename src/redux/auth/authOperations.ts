@@ -6,9 +6,10 @@ import {
   type LogInData,
   type SignUpData,
 } from '../../services/authService';
-import { setAuthHeader } from '../../services/api';
+import { clearAuthHeader, setAuthHeader } from '../../services/api';
 import type { RootState } from '../store';
 import { getCurrentUser } from '../../services/authService';
+import { logOut as logOutRequest } from '../../services/authService';
 
 export const register = createAsyncThunk(
   'auth/register',
@@ -61,16 +62,31 @@ export const refreshUser = createAsyncThunk(
       const data = await getCurrentUser();
       return data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
+      if (axios.isAxiosError(error)) {
         return thunkAPI.rejectWithValue(
-          error.response?.data?.message || "Failed to refresh"
+          error.response?.data?.message || 'Failed to refresh'
         );
       }
-      return thunkAPI.rejectWithValue("Failed to refresh");
+      return thunkAPI.rejectWithValue('Failed to refresh');
     }
   }
 );
 
+export const logOut = createAsyncThunk(
+  'auth/logOut',
+  async (_, thunkAPI) => {
+    try {
+      await logOutRequest();
+      clearAuthHeader();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkAPI.rejectWithValue(
+          error.response?.data?.message || "Logout failed"
+        );
+      }
+      return thunkAPI.rejectWithValue("Logout failed")
+  }
+});
 //authOperations.ts - thunk register — з'єднує запит + Redux
 // thunk автоматично створює три дії:
 

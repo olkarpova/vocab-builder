@@ -8,7 +8,7 @@ export const setAuthHeader = (token: string) => {
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-export const cleareAuthHeader = () => {
+export const clearAuthHeader = () => {
     api.defaults.headers.common.Authorization = "";
 };
 //api.ts - налаштовує зв'язок із бекендом
